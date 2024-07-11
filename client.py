@@ -1,12 +1,13 @@
 import requests
 import json
 import urllib.parse
+from bs4 import BeautifulSoup
 import time
 
 
 class Bulk_Scrapper:
     def __init__(self, ngrok_app_url) -> None:
-        self.base_url = ngrok_app_url+'/search?query='
+        self.base_url = 'https://'+ngrok_app_url+'/search?query='
         self.session=requests.session()
         self.session.headers = {
             'ngrok-skip-browser-warning': 'any-value'
@@ -26,7 +27,7 @@ class Bulk_Scrapper:
         return response.json()
     
     def _server_restart_handler(self, url):
-        self.session.get(self.qurery_handler('_Restart_Server'))
+        self.session.get('https://noble-raven-entirely.ngrok-free.app/search?query=%7B%22query%22%3A%20%22_Restart_Server%22%7D')
         res = self._server_down_handler(url)
         if res == "Timed Out":
             print('Server Timed Out. Please Check the Server Manually')
@@ -44,6 +45,7 @@ class Bulk_Scrapper:
         json_query = json.dumps(queries)
         encoded_query = urllib.parse.quote(json_query)
         url = f'{self.base_url}{encoded_query}'
+        print(url)
         return url
 
 
